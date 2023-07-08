@@ -4,6 +4,7 @@ import Head from 'next/head'
 
 import { fontSans } from '@/lib/fonts'
 import '@/styles/globals.css'
+import { Header } from '@/components/Header'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -18,6 +19,8 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${fontSans.style.fontFamily};
         }
       `}</style>
+
+      <Header />
       <Component {...pageProps} />
     </>
   )
