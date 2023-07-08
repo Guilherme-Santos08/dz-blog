@@ -15,7 +15,7 @@ export function NavLink({ href, title, ...props }: SidebarNavProps) {
   return (
     <Link
       href={href}
-      className={cn(pathname.includes(href) && 'text-blue-600')}
+      className={cn(pathname.includes(href) && 'text-blue-600 font-bold')}
       {...props}
     >
       {title}

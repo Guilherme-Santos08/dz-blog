@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .cards a + a {
+    @apply mt-8 pt-8 border-t border-white/10;
+  }
+}
