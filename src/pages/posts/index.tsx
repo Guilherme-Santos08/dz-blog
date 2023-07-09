@@ -1,6 +1,7 @@
 import { Card } from '@/components/Card'
 import { createClient } from '@/prismicio'
 import { GetStaticProps } from 'next'
+import { useState } from 'react'
 
 interface Post {
   uid: string
@@ -22,10 +23,22 @@ interface HomeProps {
 }
 
 export default function Posts({ postsPagination }: HomeProps) {
+  const [posts, setPosts] = useState(postsPagination.results)
+  const [loadMorePost, setLoadMorePost] = useState(postsPagination.next_page)
+
+  const morePost = async () => {
+    const postResult = await fetch(loadMorePost!)
+    const dataPost = await postResult.json()
+
+    const newPost = [...posts, ...dataPost.results]
+    setLoadMorePost(dataPost.next_page)
+    setPosts(newPost)
+  }
+
   return (
     <main className="max-w-4xl mx-auto px-8">
       <div className="flex flex-col max-w-4xl mx-auto mt-20 cards">
-        {postsPagination.results.map((post, i) => (
+        {posts.map((post, i) => (
           <Card
             key={i}
             uuid={post.uid}
@@ -35,6 +48,18 @@ export default function Posts({ postsPagination }: HomeProps) {
             firstPublicationDate={post.first_publication_date}
           />
         ))}
+
+        {loadMorePost && (
+          <div className="mx-auto">
+            <button
+              className="text-sm font-bold hover:text-blue-500 bg-transparent mt-16"
+              type="button"
+              onClick={morePost}
+            >
+              Carregar mais posts
+            </button>
+          </div>
+        )}
       </div>
     </main>
   )
@@ -43,12 +68,15 @@ export default function Posts({ postsPagination }: HomeProps) {
 export const getStaticProps: GetStaticProps = async ({ previewData }) => {
   const client = createClient({ previewData })
 
-  const postsResponse = await client.getAllByType('posts', {
+  const postsResponse = await client.getByType('posts', {
     fetch: ['post.title', 'post.subtitle', 'post.author'],
+    page: 1,
     pageSize: 1,
   })
 
-  const posts = postsResponse.map((post) => {
+  console.log(JSON.stringify(postsResponse, null, 2))
+
+  const posts = postsResponse.results.map((post) => {
     return {
       uid: post.uid,
       first_publication_date: post.first_publication_date,
@@ -63,10 +91,10 @@ export const getStaticProps: GetStaticProps = async ({ previewData }) => {
   return {
     props: {
       postsPagination: {
-        next_page: 0,
+        next_page: postsResponse.next_page,
         results: posts,
       },
     },
-    revalidate: 60 * 5, // Atualiza o banco a cada 5 minutos
+    revalidate: 60 * 5, // 5 minutes
   }
 }
