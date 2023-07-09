@@ -1,19 +1,28 @@
+import { formatDate } from '@/utils/formatDate'
 import Link from 'next/link'
 
 interface CardProps {
-  id: string
+  uuid: string
+  title: string
+  subtitle: string
+  author: string
+  firstPublicationDate: string
 }
-export function Card({ id }: CardProps) {
+export function Card({
+  uuid,
+  title,
+  subtitle,
+  author,
+  firstPublicationDate,
+}: CardProps) {
   return (
-    <Link href={`posts/${id}`} className="space-y-4 group transition-colors">
+    <Link href={`posts/${uuid}`} className="space-y-4 group transition-colors">
       <div className="flex items-center gap-7 text-sm text-gray-300">
-        <time>03 de julho de 2023</time>
-        <span>Thiago Marinho</span>
+        <time>{formatDate(firstPublicationDate)}</time>
+        <span>{author}</span>
       </div>
-      <h2 className="text-2xl font-bold group-hover:text-blue-500">
-        Mapas com React usando Leaflet
-      </h2>
-      <p>👋 Introdução</p>
+      <h2 className="text-2xl font-bold group-hover:text-blue-500">{title}</h2>
+      <p>{subtitle}</p>
     </Link>
   )
 }
