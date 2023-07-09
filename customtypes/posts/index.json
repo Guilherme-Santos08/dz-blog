@@ -1,0 +1,43 @@
+{
+  "id": "posts",
+  "label": "post",
+  "format": "custom",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": { "label": "slug", "placeholder": "" },
+        "type": "UID"
+      },
+      "title": {
+        "type": "Text",
+        "config": { "label": "title", "placeholder": "" }
+      },
+      "subtitle": {
+        "type": "Text",
+        "config": { "label": "subtitle", "placeholder": "" }
+      },
+      "author": {
+        "type": "Text",
+        "config": { "label": "author", "placeholder": "" }
+      },
+      "content": {
+        "type": "Group",
+        "config": {
+          "label": "content",
+          "fields": {
+            "heading": {
+              "type": "Text",
+              "config": { "label": "heading", "placeholder": "" }
+            },
+            "body": {
+              "type": "Text",
+              "config": { "label": "body", "placeholder": "" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
