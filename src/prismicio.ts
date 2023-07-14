@@ -20,6 +20,15 @@ const routes: prismic.ClientConfig['routes'] = [
   },
 ]
 
+export function linkResolver(doc) {
+  switch (doc.type) {
+    case 'posts/':
+      return `/posts/${doc.uid}`
+    default:
+      return null
+  }
+}
+
 /**
  * Creates a Prismic client for the project's repository. The client is used to
  * query content from the Prismic API.

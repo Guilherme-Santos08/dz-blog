@@ -69,12 +69,12 @@ export const getStaticProps: GetStaticProps = async ({ previewData }) => {
   const client = createClient({ previewData })
 
   const postsResponse = await client.getByType('posts', {
-    fetch: ['post.title', 'post.subtitle', 'post.author'],
+    fetch: ['posts.title', 'posts.subtitle', 'posts.author'],
     page: 1,
     pageSize: 1,
   })
 
-  console.log(JSON.stringify(postsResponse, null, 2))
+  // console.log(JSON.stringify(postsResponse, null, 2))
 
   const posts = postsResponse.results.map((post) => {
     return {
